@@ -61,6 +61,26 @@ const calculateDurationOfCurrentPeriodBalance = async(
     return minuteAvailable;
 };
 
+const getTheCurrentWeek = () => {
+let	currentDate = new Date();
+let	startDate = new Date(currentDate.getFullYear(), 0, 1);
+let currentWeek;
+	let days = Math.floor((currentDate - startDate) /
+		(24 * 60 * 60 * 1000));
+		
+	let weekNumber = Math.ceil(
+		(currentDate.getDay() + 1 + days) / 7);
+
+	// Display the calculated result	
+	console.log("Week number of " + currentDate + " is : " + weekNumber);
+
+    console.log("Week number of " + currentDate + " is : " + currentDate.getWeek());
+    currentWeek = currentDate.getWeek();
+
+    return currentWeek;
+};
+
+
 //Get a single user and start period
 exports.startPeriod = async(req, res, next) => {
     try {

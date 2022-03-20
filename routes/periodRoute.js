@@ -20,20 +20,7 @@ router
 router
     .route('/:id')
     .get(protect, restrictTo('admin'), userController.getUser)
-    .patch(protect, restrictTo('admin', 'user'), periodController.getUserAndOnInsurance)
     .patch(protect, restrictTo('admin'), userController.updateUser)
-    .delete(protect, restrictTo('admin'), userController.deleteUser);
-
-router
-    .route('/:id/transaction')
-    .patch(protect, restrictTo('admin', 'user'), userController.updateUserWallet);
-
-router
-    .route('/:id/transactions')
-    .get(protect, restrictTo('admin', 'user'), userController.getUserTransactions);
-
-router
-    .route('/:id/balance')
-    .get(protect, restrictTo('admin', 'user'), userController.getUserBalance);
+  ;
 
 module.exports = router;

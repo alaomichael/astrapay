@@ -8,10 +8,6 @@ const cloudinary = require('../utils/cloudinary');
 const sendEmail = require('../utils/email');
 //import  user  model
 const User = require('../models/userModel');
-//import utility generateExcel
-const convertJsonToExcel = require('../utils/generateExcel');
-//import utility generatePdf
-const convertJsonToPdf = require('../utils/generatePdf');
 //import  admin  model
 const Admin = require('../models/adminModel');
 

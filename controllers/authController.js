@@ -8,8 +8,6 @@ const twoStepAuth = require('../utils/twostepauth');
 const cloudinary = require('../utils/cloudinary');
 //import  user  model
 const User = require('../models/userModel');
-//import  wallet  model
-const Wallet = require('../models/walletModel');
 //import utilty email
 const sendEmail = require('../utils/email');
 

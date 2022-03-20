@@ -48,6 +48,9 @@ const auth = require('./routes/userRoute');
 //import admin controllers
 const admin = require('./routes/adminRoute');
 
+//import admin controllers
+const period = require('./routes/periodRoute');
+
 //set security Http headers
 app.use(helmet());
 
@@ -96,7 +99,7 @@ app.set('view engine', pug);
 //routes middlewares
 app.use('/api/v1/users', auth);
 app.use('/api/v1/admin', admin);
-
+app.use('/api/v1/period', period);
 app.use(
     fileUpload({
         useTempFiles: true,
@@ -106,34 +109,6 @@ app.use(
 
 // checking insurance status every minute with node-cron
 // cron.schedule('2 * * * *', periodController.updateUsersInsuranceStatus);
-
-app.get('/', function(req, res) {
-
-
-    // res.sendFile(__dirname + '/payuhtml/login.html');
-    res.redirect('/login.html');
-    // console.log('request cookie:', JSON.stringify(req.params));
-});
-app.get('/dashboard', function(req, res) {
-
-
-    // res.sendFile(__dirname + '/payuhtml/login.html');
-    res.redirect('/login.html');
-    // console.log('request cookie:', JSON.stringify(req.params));
-});
-
-
-app.get('/api/v1/admins-details/:id', protect, function(req, res) {
-    // const cookie = req.cookies.jwt;
-    console.log('req header params', req.params.id);
-    let id = req.params.id;
-    // console.log(cookie);
-    // res.json(cookie);
-    // res.sendFile(__dirname + '/payuhtml/users-details.html');
-
-    res.redirect(`/admins-details.html?${id}`);
-    // console.log('request cookie:', JSON.stringify(req.params));
-});
 
 app.get('/logout', function(req, res) {
     const data = {
@@ -151,14 +126,14 @@ app.get('/logout', function(req, res) {
         throw createError(404, 'User does not exist');
     }
     res.clearCookie('jwt');
-    // res.send('You have logout and your cookies are cleared');
+    res.send('You have logout and your cookies are cleared');
     // res.sendFile(__dirname + '/payuhtml/login.html');
-    res.redirect("/login.html");
+    // res.redirect("/login.html");
 });
 
 
 app.all('*', (req, res, next) => {
-    res.status(404).sendFile(__dirname + '/public/404.html');
+    res.status(404).sendFile(__dirname + '/public/mylocation.html');
     // next(createError(404, ` can't find ${req.originalUrl} on server!`));
 });
 

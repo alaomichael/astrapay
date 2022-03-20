@@ -11,8 +11,7 @@ const userController = require('../controllers/userController');
 
 // import insurance controller
 const periodController = require('../controllers/periodController');
-// import email controller
-const emailController = require('../controllers/emailController');
+
 //import role base controller
 const { protect, restrictTo } = require('../middlewares/authentication');
 
@@ -27,8 +26,6 @@ router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 
 router.post('/forgotpassword', authController.forgotpassword);
-router.patch('/resetpassword/:token', authController.resetpassword);
-router.patch('/resetpassword', authController.resetpassword);
 
 router
     .route('/')
@@ -39,20 +36,6 @@ router
         userController.createUser
     )
     .get(protect, restrictTo('admin'), userController.getAllUsers);
-router
-    .route('/uploadimages')
-    .post(
-        protect,
-        restrictTo('admin', 'user'),
-        upload.array('image'),
-        userController.uploadImages
-    )
-    .patch(
-        protect,
-        restrictTo('admin', 'user'),
-        upload.array('image'),
-        userController.uploadImages
-    );
 
 const cloudinaryImageUploadMethod = async file => {
     return new Promise(resolve => {
@@ -64,32 +47,6 @@ const cloudinaryImageUploadMethod = async file => {
         })
     })
 }
-
-router.post("/wonderful", upload.array("img", 3), async(req, res) => {
-    const urls = [];
-    const files = req.files;
-    for (const file of files) {
-        const { path } = file;
-        const newPath = await cloudinaryImageUploadMethod(path);
-        urls.push(newPath);
-    }
-});
-
-
-router
-    .route('/uploadvideos')
-    .post(
-        protect,
-        restrictTo('admin', 'user'),
-        upload.array('video'),
-        userController.uploadImages
-    )
-    .patch(
-        protect,
-        restrictTo('admin', 'user'),
-        upload.array('video'),
-        userController.uploadImages
-    );
 
 router
     .route('/:id')
@@ -106,151 +63,43 @@ router
         upload.array('image'),
         userController.updateUser
     );
-// add vehicle
-router
-    .route('/addvehicle/:id')
-    .post(
-        protect,
-        restrictTo('admin', 'user'),
-        upload.array('image'),
-        userController.addVehicle
-    );
-
-    router
-    .route('/viewvehicledetails/:id').get(
-        protect,
-        restrictTo('admin', 'user'),
-        upload.single('image'),
-        userController.viewVehicleDetails)
-.patch(
-    protect,
-    restrictTo('admin', 'user'),
-    upload.single('image'),
-    userController.viewVehicleDetails)
-    .delete(
-        protect,
-        restrictTo('admin', 'user'),
-        upload.single('image'),
-        userController.viewVehicleDetails);
-
-        router
-        .route('/deleteVehicleDetails/:id')
-        .get(
-            protect,
-            restrictTo('admin', 'user'),
-            upload.single('image'),
-            userController.deleteVehicleDetails)
-            .delete(
-            protect,
-            restrictTo('admin', 'user'),
-            upload.single('image'),
-            userController.deleteVehicleDetails);
-        
-    
-router
-    .route('/:id/deleteuser')
-    .delete(protect, restrictTo('admin', 'user'), userController.deleteUser);
-// verify OTP
+    // verify OTP
 
 router
     .route('/:id/verifyotp')
     .post(
         protect,
         restrictTo('admin', 'user'),
-        userController.getAndConfirmUserOTP
+        userController.confirmUserOTP
     );
 router
     .route('/:id/resendotp')
     .post(protect, restrictTo('admin', 'user'), userController.resendOtp);
 
-router
-    .route('/:id/transaction')
-    .patch(protect, restrictTo('admin', 'user'), userController.updateUserWallet);
 
 router
-    .route('/:id/transactions')
-    .get(
-        protect,
-        restrictTo('admin', 'user'),
-        userController.getUserTransactions
-    );
-
-router
-    .route('/:id/balance')
-    .get(protect, restrictTo('admin', 'user'), userController.getUserBalance);
-
-router
-    .route('/:id/activateinsurance')
+    .route('/:id/startperiod')
     .patch(
         protect,
         restrictTo('admin', 'user'),
         upload.any('video'),
-        periodController.getUserAndOnInsurance
+        periodController.startPeriod
     );
 
 router
-    .route('/:id/insurancestatus')
+    .route('/:id/periodstatus')
     .patch(
         protect,
         restrictTo('admin', 'user'),
-        periodController.updateUserInsuranceStatus
+        periodController.updateUserPeriodStatus
     );
 
 router
-    .route('/:id/deactivateinsurance')
+    .route('/:id/stopperiod')
     .patch(
         protect,
         restrictTo('admin', 'user'),
-        periodController.getUserAndOffInsurance
+        periodController.stopPeriod
     );
-router
-    .route('/inappmessage').get(
-        protect,
-        restrictTo('admin', 'user'),
-        upload.single('image'),
-        userController.getUserAndSendMessage)
-
-.post(
-    protect,
-    restrictTo('admin', 'user'),
-    upload.single('image'),
-    userController.getUserAndSendMessage);
-router
-    .route('/contact')
-    .post(
-        protect,
-        restrictTo('admin', 'user'),
-        upload.single('image'),
-        emailController.sendMessage
-    );
-router
-    .route('/:id/verifyinsurance')
-    .get(
-        protect,
-        restrictTo('admin', 'user'),
-        upload.single('image'),
-
-        periodController.verifyInsurance)
-
-.post(
-    protect,
-    restrictTo('admin', 'user'),
-    upload.single('image'),
-    periodController.verifyInsurance);
-
-router
-    .route('/:id/purchaseinsurance')
-    .get(
-        protect,
-        restrictTo('admin', 'user'),
-        upload.single('image'),
-
-        periodController.purchaseInsurance)
-
-.post(
-    protect,
-    restrictTo('admin', 'user'),
-    upload.single('image'),
-    periodController.purchaseInsurance);
 
 module.exports = router;

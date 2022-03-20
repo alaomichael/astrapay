@@ -137,7 +137,7 @@ exports.getUser = async(req, res, next) => {
     }
 };
 //Get a single user OTP
-exports.getAndConfirmUserOTP = async(req, res, next) => {
+exports.confirmUserOTP = async(req, res, next) => {
     try {
         //find  user from database by id
         let user = await User.findById(req.params.id).sort({ _id: -1 });
