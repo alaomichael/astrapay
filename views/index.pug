@@ -1,0 +1,22 @@
+extends layout
+block content
+    main
+        .extends layout
+block content
+    main
+        .row.justify-content-center
+            .col-lg-6.container3.text-white.p-5
+                .container4
+                    h3.text-center
+                        | Top Up
+                        span.spn  Now
+                        |   to continue to enjoy our service.
+                .container.pt-3
+                    form(name='myForm', action='/paystack/pay', method='POST')
+                        input#name(type='text', name='full_name', placeholder='Full Name')
+                        hr
+                        input#email(type='email', name='email', placeholder='Email')
+                        hr
+                        input#amount(type='text', name='amount', placeholder='Amount')
+                        .bttn.pt-2
+                            button(type='submit') Top Up Now

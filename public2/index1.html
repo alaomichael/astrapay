@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Local Weather</title>
+    <script type="text/javascript">
+        const initialize = () => {
+            navigator.geolocation.getCurrentPosition(
+                getWeatherInfoByLocation,
+                handleError
+            );
+        };
+
+        const handleError = error => {
+            alert(`Unable to retrieve location: ${error.message}`);
+        };
+
+        const getWeatherInfoByLocation = position => {
+            const xhr = new XMLHttpRequest();
+            const lat = position.coords.latitude;
+            const long = position.coords.longitude;
+            const url = `https://api.openweathermap.org/data/2.5/weather?APPID=7030491e77efffbb7a15bd337f04958f
+⪫=${lat}&lon=${long}`;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    showTemperature(JSON.parse(xhr.response));
+                }
+            };
+
+            xhr.open("get", url, true);
+            xhr.send();
+        };
+
+        const showTemperature = weatherInfo => {
+            const location = weatherInfo.name;
+            const temperature = Math.round(
+                ((weatherInfo.main.temp - 273.15) * 9) / 5 + 32
+            );
+            document.getElementById(
+                "weatherInfo"
+            ).innerHTML = `Current temperature in ${location} is ${temperature}°Fahrenheit `;
+        };
+    </script>
+    <script type="text/javascript">
+        CLOUDINARY_API = 'https://api.cloudinary.com/v1_1/dguaclaav/video/upload';
+        CLOUDINARY_UPLOAD_PRESET = 'mt3alicw/video/upload';
+
+        let imgPreview = document.getElementById('img-preview');
+        let fileUpload = document.getElementById('file-upload');
+
+        fileUpload.addEventListener('change', function(event) {
+            let file = event.target.files[0];
+
+            let formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+            axios({
+                url: CLOUDINARY_API,
+                method: {
+                    'Content-Type': 'applictaion/x-www-form-urlencoded',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Header': 'Origin',
+                    'Access-Control-Allow-Credentials': true,
+                },
+                data: formData
+            }).then(function(res) {
+                console.log(res);
+                imgPreview.src = res.data.source_url;
+            }).catch(function(err) {
+                console.log(err);
+            });
+
+        });
+    </script>
+</head>
+
+<body onload="initialize()">
+    <div>
+        <h1 id="weatherInfo">Retriving local weather information...</h1>
+    </div>
+    <div id='file-upload'>
+        <input type='file'></input>
+    </div>
+    <div id='img-preview'>
+        <img src='' alt='uploaded video image' />
+    </div>
+</body>
+
+</html>
