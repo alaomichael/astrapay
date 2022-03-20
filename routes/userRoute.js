@@ -74,7 +74,10 @@ router
     );
 router
     .route('/:id/resendotp')
-    .post(protect, restrictTo('admin', 'user'), userController.resendOtp);
+    .post(
+        protect, 
+        restrictTo('admin', 'user'),
+        userController.resendOtp);
 
 
 router

@@ -124,6 +124,9 @@ exports.startPeriod = async(req, res, next) => {
             periodTimeAvailable,
             periodTimeRemaining,
         } = user;
+
+        presentWeek = getTheCurrentWeek();
+        console.log("line 129:", presentWeek);
       
         if (isDeactivated === false ) {
             //find  user from database by id

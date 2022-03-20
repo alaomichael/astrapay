@@ -133,8 +133,8 @@ app.get('/logout', function(req, res) {
 
 
 app.all('*', (req, res, next) => {
-    res.status(404).sendFile(__dirname + '/public/mylocation.html');
-    // next(createError(404, ` can't find ${req.originalUrl} on server!`));
+    // res.status(404).sendFile(__dirname + '/public/mylocation.html');
+    next(createError(404, ` can't find ${req.originalUrl} on server!`));
 });
 
 //error handler
