@@ -74,8 +74,8 @@ let currentWeek;
 	// Display the calculated result	
 	console.log("Week number of " + currentDate + " is : " + weekNumber);
 
-    console.log("Week number of " + currentDate + " is : " + currentDate.getWeek());
-    currentWeek = currentDate.getWeek();
+    // console.log("Week number of " + currentDate + " is : " + currentDate.getWeek());
+    currentWeek = weekNumber;
 
     return currentWeek;
 };
@@ -127,8 +127,10 @@ exports.startPeriod = async(req, res, next) => {
 
         presentWeek = getTheCurrentWeek();
         console.log("line 129:", presentWeek);
+
+        console.log("line 131:", previousWeek);
       
-        if (isDeactivated === false ) {
+        if (isDeactivated === false && presentWeek > previousWeek  ) {
             //find  user from database by id
             let user = await User.findById(req.params.id);
             console.log('user:', user);
@@ -196,44 +198,44 @@ exports.startPeriod = async(req, res, next) => {
             console.log('start time in mins:', startTimeInMinute);
             // isFacilitating = req.body.isFacilitating ? req.body.isFacilitating : isFacilitating;
          
-   let calculatedCost;
-            let costPerMin = calculatedCost;
+//    let calculatedCost;
+//             let costPerMin = calculatedCost;
           
-            // const calculateDurationOfCurrentPeriodBalance = async(
-            //     periodBalance,
-            //     costPerMin
-            // ) => {
-            //     let minuteAvailable = 0;
-            //     minuteAvailable =  (periodBalance / costPerMin);
-            //     return minuteAvailable;
-            // };
-            // Get the available time for period
-            let timeAvailableInMinute = await calculateDurationOfCurrentPeriodBalance(
-                periodBalance,
-                costPerMin
-            );
-            console.log('period time available:', timeAvailableInMinute);
-            periodTimeAvailableInMin = await timeAvailableInMinute;
+//             // const calculateDurationOfCurrentPeriodBalance = async(
+//             //     periodBalance,
+//             //     costPerMin
+//             // ) => {
+//             //     let minuteAvailable = 0;
+//             //     minuteAvailable =  (periodBalance / costPerMin);
+//             //     return minuteAvailable;
+//             // };
+//             // Get the available time for period
+//             let timeAvailableInMinute = await calculateDurationOfCurrentPeriodBalance(
+//                 periodBalance,
+//                 costPerMin
+//             );
 
-            
-            periodTimeRemainingInMin = await timeAvailableInMinute;
-            await user.periodTimeAvailable.push({ minutes: periodTimeAvailableInMin });
-            console.log('periodTimeAvailable, line 278:', periodTimeAvailableInMin);
-            await user.periodTimeRemaining.push({ minutes: periodTimeRemainingInMin });
-            
-           
-            await user.save();
+
+
+            // console.log('line 216:');
+            // console.log(typeof timeAvailableInMinute);
+            // console.log('period time available:', timeAvailableInMinute);
+            // periodTimeAvailableInMin = await timeAvailableInMinute;   
+            // periodTimeRemainingInMin = await timeAvailableInMinute;
+            // await user.periodTimeAvailable.push({ minutes: periodTimeAvailableInMin });
+            // console.log('periodTimeAvailable, line 278:', periodTimeAvailableInMin);
+            // await user.periodTimeRemaining.push({ minutes: periodTimeRemainingInMin });
+                       
+            // await user.save();
 
             let updatedDataAfterActivation = {
-                periodTimeAvailable,
+           
                 isActive: true,
                 isInActive: false,
-               
+               presentWeek:presentWeek,
                 startTime,
-                periodTimeAvailableInMin,
-                premiumPerMinute,
-            
-                periodTimeRemainingInMin,
+              
+               
                 periodActivationCount,
                 ...req.body,
             };
@@ -260,7 +262,7 @@ exports.startPeriod = async(req, res, next) => {
                     updatedDataAfterActivation,
                 },
             });
-        } else if (isDeactivated === false && periodActivationCount >= 1) {
+        } else if (isDeactivated === false && periodActivationCount >= 3) {
             //find  user from database by id
             const user = await User.findById(req.params.id);
             console.log('user data:', user); //check if user exists
