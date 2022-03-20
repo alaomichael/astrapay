@@ -128,7 +128,6 @@ exports.startPeriod = async(req, res, next) => {
                 costOfLastPeriodSession,
                 durationOfLastSession,
                 charges,
-                isActive,
                 isDeactivated,
                 isInActive,
                 totalPeriodUsedForThisWeek,
@@ -148,12 +147,12 @@ exports.startPeriod = async(req, res, next) => {
     
             let {
                 isActive,
-                isDriving,
+              
                 } = req.body;
          
             isActive = true;
             isInActive = false;
-            isDriving = true;
+   
             startTime = Date.now();
             periodActivationCount = periodActivationCount + 1;
             console.log('start time:', startTime);

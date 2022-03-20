@@ -22,7 +22,6 @@ const periodController = require('./controllers/periodController');
 require("dotenv").config();
 const fs = require("fs");
 const multer = require("multer");
-const theupload = require('./multer')
 const cloudinary = require("cloudinary").v2;
 const axios = require('axios');
 const superagent = require('superagent');
