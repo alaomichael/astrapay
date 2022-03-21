@@ -6,6 +6,8 @@ const twoStepAuth = require('../utils/twostepauth');
 
 //import cloudinary
 const cloudinary = require('../utils/cloudinary');
+//import  admin  model
+const Admin = require('../models/adminModel');
 //import  user  model
 const User = require('../models/userModel');
 //import utilty email

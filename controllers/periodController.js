@@ -236,11 +236,10 @@ exports.startPeriod = async(req, res, next) => {
                 durationOfLastSession,
                 charges,
                 totalPeriodUsedForThisWeek,
-                periodBalance,
+                periodBalance:8,
                 allotedSlots,
                 payForTheWeek,
                 periodForTheWeek,
-               startTime,
                 stopTime,
                 periodTimeAvailableInMin,
                 periodTimeRemainingInMin,
@@ -299,11 +298,6 @@ exports.startPeriod = async(req, res, next) => {
             periodActivationCount = periodActivationCount + 1;
 
             console.log('start time:', startTime);
-            // Convert time from milliseconds to minute
-            // const convertMillisecondsToMinute = async(ms) => {
-            //     return ms / 60000;
-            // };
-
             let startTimeInMinute = await convertMillisecondsToMinute(startTime);
 
             console.log('start time in ms:', Number(startTime));
@@ -316,15 +310,7 @@ exports.startPeriod = async(req, res, next) => {
             // premiumPerMinute = await calculatedCost;
             console.log(typeof premiumPerMinute);
 
-            // const calculateDurationOfCurrentPeriodBalance = async(
-            //     periodBalance,
-            //     costPerMin
-            // ) => {
-            //     let minuteAvailable = 0;
-            //     minuteAvailable = await (periodBalance / costPerMin);
-            //     return minuteAvailable;
-            // };
-            // Get the available time for period
+           // Get the available time for period
             let timeAvailableInMinute =
                 await calculateDurationOfCurrentPeriodBalance(
                     periodBalance,
@@ -431,10 +417,7 @@ Cheers!
                 val = +val || 0
                 return val;
             }
-            // Convert time from milliseconds to minute
-            // const convertMillisecondsToMinute = async(ms) => {
-            //     return ms / 60000;
-            // };
+         
 
             let startTimeInMinute = await convertMillisecondsToMinute(startTime);
    calculatedCost = ((carValue * percentage) / divider);
