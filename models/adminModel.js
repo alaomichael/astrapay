@@ -60,11 +60,7 @@ const adminSchema = new mongoose.Schema({
         required: [true, 'please provide your email'],
         validate: [validator.isEmail, 'please provide a valid email'],
     },
-    city: {
-        type: String,
-        trim: true,
-        default: '',
-    },
+ 
     isActive: {
         type: Number,
         required: [true, 'please provide is active status'],
@@ -82,6 +78,7 @@ const adminSchema = new mongoose.Schema({
         default: 0,
     },
     recentUsers: [users],
+    listOfUsers: [users],
     previousNumberOfUsers: {
         type: Number,
         required: [true, 'please provide number of registered users'],
@@ -92,10 +89,25 @@ const adminSchema = new mongoose.Schema({
         required: [true, 'please provide number of new number of users'],
         default: 0,
     },
+    numberOfSlotAllotedToday: {
+        type: Number,
+        required: [true, 'please provide number of new number of users'],
+        default: 0,
+    },
     role: {
         type: String,
         required: [true, 'please provide role'],
         default: 'admin',
+    },
+    currentDay: {
+        type: String,
+        required: [true, 'please provide currentDay'],
+        default: '',
+    },
+    previousDay: {
+        type: String,
+        required: [true, 'please provide previousDay'],
+        default: '',
     },
     passwordResetToken: String,
     passwordResetExpires: Date,

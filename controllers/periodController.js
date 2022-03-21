@@ -80,18 +80,40 @@ let currentWeek;
     return currentWeek;
 };
 
+const getTheCurrentDate = () => {
+    let	currentDate = new Date();
+    let	startDate = new Date(currentDate.getFullYear(), 0, 1);
+    let todayDate;
+             // Display the calculated result	
+        console.log("Today date is " + currentDate.getDay());
+    
+        // console.log("Week number of " + currentDate + " is : " + currentDate.getWeek());
+        todayDate = currentDate.getDate();
+    
+        return todayDate;
+    };
+
 
 //Get a single user and start period
 exports.startPeriod = async(req, res, next) => {
     try {
+        let {user_id} = req.body;
         //find  user from database by id
-        let user = await User.findById(req.params.id);
+        // let user = await User.findById(req.params.id);
+        let user = await User.findById(user_id);
         //check if user exists
         if (!user) {
             throw createError(404, 'User does not exist');
         }
 
-        console.log('user prop:', user);
+         //find  user from database by id
+         let admin = await Admin.find();
+         //check if user exists
+         if (!user) {
+             throw createError(404, 'Admin does not exist');
+         }
+
+        console.log('admin prop:', admin);
         // Destructure the user
         let {
             firstName,
@@ -112,7 +134,11 @@ exports.startPeriod = async(req, res, next) => {
             isInActive,
             totalPeriodUsedForThisWeek,
             periodBalance,
+            allotedSlots,
+            payForTheWeek,
+            periodForTheWeek,
            role,
+           startTime,
             stopTime,
             usage,
             periodTimeAvailableInMin,
@@ -124,7 +150,8 @@ exports.startPeriod = async(req, res, next) => {
             periodTimeAvailable,
             periodTimeRemaining,
         } = user;
-
+      let presentDay =  getTheCurrentDate();
+      console.log("line 129:", presentDay);
         presentWeek = getTheCurrentWeek();
         console.log("line 129:", presentWeek);
 
@@ -169,12 +196,11 @@ exports.startPeriod = async(req, res, next) => {
                 periodTimeAvailable,
                 periodTimeRemaining,
             } = user;
-    
+    let slotAlloted; 
             let {
-                isActive,
-              
+              slot           
                 } = req.body;
-         
+         slotAlloted = slot ? slot : 1;
             isActive = true;
             isInActive = false;
    
@@ -195,38 +221,9 @@ exports.startPeriod = async(req, res, next) => {
             let startTimeInMinute = await convertMillisecondsToMinute(startTime);
 
             // console.log('start time in ms:', Number(startTime));
-            console.log('start time in mins:', startTimeInMinute);
-            // isFacilitating = req.body.isFacilitating ? req.body.isFacilitating : isFacilitating;
-         
-//    let calculatedCost;
-//             let costPerMin = calculatedCost;
-          
-//             // const calculateDurationOfCurrentPeriodBalance = async(
-//             //     periodBalance,
-//             //     costPerMin
-//             // ) => {
-//             //     let minuteAvailable = 0;
-//             //     minuteAvailable =  (periodBalance / costPerMin);
-//             //     return minuteAvailable;
-//             // };
-//             // Get the available time for period
-//             let timeAvailableInMinute = await calculateDurationOfCurrentPeriodBalance(
-//                 periodBalance,
-//                 costPerMin
-//             );
-
-
-
-            // console.log('line 216:');
-            // console.log(typeof timeAvailableInMinute);
-            // console.log('period time available:', timeAvailableInMinute);
-            // periodTimeAvailableInMin = await timeAvailableInMinute;   
-            // periodTimeRemainingInMin = await timeAvailableInMinute;
-            // await user.periodTimeAvailable.push({ minutes: periodTimeAvailableInMin });
-            // console.log('periodTimeAvailable, line 278:', periodTimeAvailableInMin);
-            // await user.periodTimeRemaining.push({ minutes: periodTimeRemainingInMin });
-                       
-            // await user.save();
+          allotedSlots.push({
+            position: slotAlloted
+          });
 
             let updatedDataAfterActivation = {
            
@@ -234,8 +231,25 @@ exports.startPeriod = async(req, res, next) => {
                 isInActive: false,
                presentWeek:presentWeek,
                 startTime,
-              
-               
+                periodActivationCount,
+                costOfLastPeriodSession,
+                durationOfLastSession,
+                charges,
+                totalPeriodUsedForThisWeek,
+                periodBalance,
+                allotedSlots,
+                payForTheWeek,
+                periodForTheWeek,
+               startTime,
+                stopTime,
+                periodTimeAvailableInMin,
+                periodTimeRemainingInMin,
+                timeUsedToday,
+                timeUsedThisWeek,
+                presentWeek,
+                previousWeek,
+                periodTimeAvailable,
+                periodTimeRemaining,
                 periodActivationCount,
                 ...req.body,
             };

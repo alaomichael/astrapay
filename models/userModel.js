@@ -5,6 +5,32 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 // create expenditure schema
+const facilitator = new mongoose.Schema({
+    name: {
+        type: String,
+        trim: true,
+        required: [false, 'please input your first name!'],
+        validate: [validator.isAlpha, 'First name should contain only alphabets'],
+        default: '',
+    },
+    startTime: {
+        type: Date,
+        required: [true, 'start time is required'],
+        default: 0,
+    },
+    stopTime: {
+        type: Date,
+        required: [true, 'stop time is required'],
+        default: 0,
+    },
+    createdOn: {
+        type: Date,
+        default: Date.now(),
+    },
+});
+
+
+// create expenditure schema
 const charge = new mongoose.Schema({
     costOfPeriod: {
         type: Number,
@@ -33,6 +59,18 @@ const timeUsed = new mongoose.Schema({
     duration: {
         type: Number,
         required: [true, 'usage time / duration is required'],
+    },
+    createdOn: {
+        type: Date,
+        default: Date.now(),
+    },
+}, { timestamps: false });
+
+// create duration Schema
+const slot = new mongoose.Schema({
+    position: {
+        type: Number,
+        required: [false, 'slot position is required'],
     },
     createdOn: {
         type: Date,
@@ -114,6 +152,18 @@ const userSchema = new mongoose.Schema({
         trim: true,
         required: [false, 'please provide otp'],
         default: 000000,
+    },
+    payForTheWeek: {
+        type: Number,
+        trim: true,
+        required: [false, 'please provide payForTheWeek'],
+        default: 0,
+    },
+    periodForTheWeek: {
+        type: Number,
+        trim: true,
+        required: [false, 'please provide periodForTheWeek'],
+        default: 0,
     },
         login: {
         type: Boolean,
@@ -214,7 +264,12 @@ const userSchema = new mongoose.Schema({
         type: Date,
         required: [false, 'stop time is required'],
     },
+    startTime: {
+        type: Date,
+        required: [false, 'stop time is required'],
+    },
     usage: [timeUsed],
+    allotedSlots: [slot],
     periodTimeAvailableInMin: {
         type: Number,
         required: [false, 'periodTimeAvailableInMin is required'],
@@ -245,6 +300,17 @@ const userSchema = new mongoose.Schema({
         required: [false, 'previousWeek is required'],
         default: 0,
     },
+    presentDay: {
+        type: Number,
+        required: [false, 'presentDay is required'],
+        default: 0,
+    },
+    previousDay: {
+        type: Number,
+        required: [false, 'previousDay is required'],
+        default: 0,
+    },
+    facilitators: [facilitator],
     periodTimeAvailable: [timeAvailable],
     periodTimeRemaining: [timeRemaining],
     passwordResetToken: String,
