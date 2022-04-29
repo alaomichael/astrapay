@@ -1,7 +1,7 @@
 // const express = require('express');
 // const sendEmail = async(to, from, subject, text) => {
-//     var API_KEY = '863f38600f59bbf47fdfb06aa67b9417-0d2e38f7-9bd0785e';
-//     var DOMAIN = 'sandbox8a80e63bc0d04fd0b02dfc74e335d678.mailgun.org';
+//     var API_KEY = 
+//     var DOMAIN = 
 //     var mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
 //     // from = 'PAY-U  <support@webpay-u.com>' || req.body.from;
 //     const data = {
@@ -61,8 +61,8 @@ const sendEmail = async({ from, to, subject, text }) => {
     });
 };
 module.exports = sendEmail;
-// var API_KEY = '863f38600f59bbf47fdfb06aa67b9417-0d2e38f7-9bd0785e';
-// var DOMAIN = 'sandbox8a80e63bc0d04fd0b02dfc74e335d678.mailgun.org';
+// var API_KEY = 
+// var DOMAIN = 
 // var mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
 // from = 'PAY-U  <support@webpay-u.com>'
 // const data = {
